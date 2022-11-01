@@ -207,7 +207,7 @@ cor(insample_returns %>% select(-date)) %>%
     labels = scales::percent_format(accuracy = .1)
   ) +
   labs(
-    title = "Correlation Matrix - Training",
+    title = "Correlation Matrix - In-Sample",
     x = "",
     y = "",
     caption = "Source: Yahoo Finance, Bloomberg"
@@ -325,7 +325,10 @@ best_penalized_port_calculation = function (selected_lambda){
     select(-date) %>%
     as.matrix()
   
-  testing_portfolio_returns = testing_returns_matrix %*% t(chosen_port_weights_matrix) %>% 
+  testing_portfolio_returns = (
+    testing_returns_matrix
+    %*% t(chosen_port_weights_matrix)
+  )%>% 
     data.frame() %>% 
     tibble() %>% 
     purrr::set_names(
@@ -438,8 +441,8 @@ plot_statistic = function (column){
   
   chosen_statistics_plot = chosen_statistics %>% 
     ggplot(aes(x = lambda)) +
-    geom_line(aes(y = value), size = 1, color = "darkblue") +
-    geom_point(aes(y = value), color = "darkblue") +
+    geom_line(aes(y = value), size = 1, color = "deepskyblue4") +
+    geom_point(aes(y = value), color = "deepskyblue4") +
     scale_x_continuous(labels = scales::number_format(
       accuracy = 0.0001, big.mark = '.', decimal.mark = ','
     ),
@@ -448,7 +451,8 @@ plot_statistic = function (column){
       x = '', y = '',
       caption = 'Source: Yahoo Finance, Bloomberg, Author'
     ) +
-    theme_minimal()
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 90))
   
   if (column %in% c(1, 2)){
     
@@ -462,7 +466,7 @@ plot_statistic = function (column){
             value, accuracy = 0.01, big.mark = '.', decimal.mark = ','
           )
         ),
-        color = "darkblue", fontface = 2
+        color = "deepskyblue4", fontface = 2
       ) +
       scale_y_continuous(labels = scales::percent_format(
         accuracy = 0.01, big.mark = '.', decimal.mark = ','
@@ -482,7 +486,7 @@ plot_statistic = function (column){
             value, accuracy = 0.01, big.mark = '.', decimal.mark = ','
           )
         ),
-        color = "darkblue",
+        color = "deepskyblue4",
         fontface = 2
       )
     
@@ -491,7 +495,7 @@ plot_statistic = function (column){
   if (column == 2){
     
     chosen_statistics_plot = chosen_statistics_plot +
-      labs(title = "Volatilidade Anualizada vs. Lambda")
+      labs(title = "Annualized Volatility vs. Lambda")
     
   }
   
