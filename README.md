@@ -36,9 +36,16 @@ Considering that the sum of weights must always be equal to 1, the closer the we
 
 ### Methodology
 We now describe the steps taken to obtain the optimal portfolio according to RIDGE:
+_Goal_: Find the best weights for the portfolio without extreme allocations with stocks selected apriori.
 1) *Stocks choice*: ten stocks are chosen for the portfolio. The Yahoo Finance API is used to obtain the stocks.
 2) *Division of Training and Testing*: stock's prices are transformed in returns. The returns are divided in training and testing. The training period is composed by 2 years and the testing period is the most recent 1 year.
-3) *Creation of Possible Portfolio Weights*: 
+3) *Creation of Possible Portfolio Weights*: `expand.grid` function is used to create many different combinations of portfolio weights. The function creates a dataframe in which each row represents a different portfolio weight combination. For instance, the first row in column `w1` represents the weight that the first stock has in the first combination. Because the sum of weights is not always equal to 1, the weights are divided by the sum of weights (the sum of the values in the row).
+4) *Calculation of Variance for Portfolios in the Training Sample*: variance is calculated for each row in the dataframe created by expand.grid. The calculation is done by the multiplication of matrixes.
+5) *Calculation of Penalizer for Portfolios in Training Sample*: penalizer is calculated considering the sum of the squares of weights. The penalizer is them multiplied by many different lambdas. After that, for each value of lambda, the portfolio that has the smallest function (variance + penalizer) is chosen. For instance, if 30 different lambdas as tested, there will be 30 different portfolios that are the ones that minimize the function.
+6) *Best Lambda Search in Test Sample*: the portfolios chosen by the lambdas are than tested in the testing sample (last year). The testing includes the calculation of average returns, volatility, and Sharpe ratio.
+7) *Lambda Choice*: the lambda is chosen by selecting the lambda that leads to the portfolio with best Sharpe ratio. Alternatively, one can choose the lambda by selectiing the lambda that leads to the portfolio with the smallest volatility.
+8) *Reusing the Selected Lambda in the In-Sample*: with the selected lambda, we now calculate the volatility of each portfolio (changes are due to weights) for the in-sample (training sample + testing sample). The volatility is than added to the penalizer (sum of squares of weights multiplied by the lambda with the best performance in the testing sample).
+9) *Choice of Portfolio*: the selected weights are the ones that lead to the portfolio with the smallest function (`variance + penalizer * selected lambda`).
 
 ```
 "RIDGE for Portfolio Optimization."
