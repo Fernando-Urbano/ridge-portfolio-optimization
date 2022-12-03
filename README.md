@@ -26,7 +26,7 @@ The lambda is a hyper parameter chosen by test and error using training and test
 RIDGE has a similar purpose in efficient frontier. Steady of having the betas in the penalizer function, it is presented having the sum of squares of the weights. Therefore, when trying to minimize the variance of a portfolio by choosing the weights, we do not only consider the variance but also the penalizer.
 
 ```math
-minimize(f(w_{1}, w_{2}, ..., w_{n}) = \sigma_{portfolio} + \lambda * (\sum_{i=1} ^ {n} w_{i}^{2}))
+minimize(f(w_{1}, w_{2}, ..., w_{n})) = \sigma_{portfolio} + \lambda * (\sum_{i=1} ^ {n} w_{i}^{2}))
 ```
 ```math
 constraint: (\sum_{i=1} ^ {n} w_{i}) = 1
