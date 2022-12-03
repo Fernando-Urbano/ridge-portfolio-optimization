@@ -29,7 +29,7 @@ RIDGE has a similar purpose in efficient frontier. Steady of having the betas in
 minimize(f(w_{1}, w_{2}, ..., w_{n})) = \sigma_{portfolio} + \lambda * (\sum_{i=1} ^ {n} w_{i}^{2}))
 ```
 ```math
-constraint: (\sum_{i=1} ^ {n} w_{i}) = 1
+constraint: \sum_{i=1} ^ {n} w_{i} = 1
 ```
 
 Considering that the sum of weights must always be equal to 1, the closer the weights are to the average of weights, the smaller the penalizer will be. Therefore, the bigger the lambda (hyper parameter of penalization), the closer the optimal portfolio weights will be to 1 / (nº of stocks). The lambda is defined in the same way as it would be defined in a regression using RIDGE.
